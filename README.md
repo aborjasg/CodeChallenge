@@ -8,3 +8,8 @@ Steps to deploy this solution:
 3. Run the Unit test project
 4. Run the web application and enter different latitudes and longitudes. Also see Event Log option
 
+Components:
+1. Web App
+2. Database (on Google cloud)
+3. Unit test
+

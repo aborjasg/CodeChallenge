@@ -55,6 +55,7 @@ namespace WebApp.Controllers
             }
             catch(Exception ex)
             {
+                model.result = "[!] Error";
                 message = ex.Message;
                 res = ServiceResult.ERR;
 
@@ -72,7 +73,9 @@ namespace WebApp.Controllers
             {
                 string uriApi = ConfigurationManager.AppSettings["ServiceEndpoint"] + ConfigurationManager.AppSettings["ServiceResource"];
                 HttpClient client = new HttpClient();
-                HttpResponseMessage response = client.GetAsync(uriApi + string.Format("?service={0}&version={1}&request={2}&typeName={3}&srsname={4}&cql_filter={5}&propertyName={6}&outputFormat={7}", model.service, model.version, model.request, model.typeName, model.srsname, model.cql_filter, model.propertyName, model.outpuFormat)).Result;
+                client.BaseAddress = new Uri(uriApi);
+                string uriString = uriApi + string.Format("?service={0}&version={1}&request={2}&typeName={3}&srsname={4}&cql_filter={5}&propertyName={6}&outputFormat={7}", model.service, model.version, model.request, model.typeName, model.srsname, model.cql_filter, model.propertyName, model.outpuFormat);
+                HttpResponseMessage response = client.GetAsync(uriString).Result;
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -95,8 +98,7 @@ namespace WebApp.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                return "[!] Error";
+                throw new Exception(ex.Message);              
             }
            
         }

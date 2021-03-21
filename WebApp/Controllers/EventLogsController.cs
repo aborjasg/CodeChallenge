@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Configuration;
 using WebApp.Models;
 
 namespace WebApp.Controllers
@@ -17,6 +18,7 @@ namespace WebApp.Controllers
         // GET: EventLogs
         public ActionResult Index()
         {
+            Console.WriteLine(ConfigurationManager.ConnectionStrings["AuditModel"]);
             return View(db.EventLogs.ToList().OrderByDescending(x => x.dProcessTimestamp));
         }
 

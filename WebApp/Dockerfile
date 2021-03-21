@@ -5,3 +5,10 @@ FROM mcr.microsoft.com/dotnet/framework/aspnet:4.8-windowsservercore-ltsc2019
 ARG source
 WORKDIR /inetpub/wwwroot
 COPY ${source:-obj/Docker/publish} .
+EXPOSE 80/tcp
+EXPOSE 8080/tcp
+EXPOSE 21/tcp
+EXPOSE 22/tcp
+EXPOSE 3306/tcp
+EXPOSE 27017/tcp
+EXPOSE 27018/tcp

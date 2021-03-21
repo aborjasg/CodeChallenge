@@ -11,7 +11,7 @@ namespace WebApp.Models
     public class ServiceInput
     {
         [Key]
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string service { get; set; }
         public string version { get; set; }
         public string request { get; set; }
@@ -19,7 +19,7 @@ namespace WebApp.Models
         public string srsname { get; set; }
         public string cql_filter { 
             get { 
-                return "INTERSECTS(SHAPE,SRID=4326;POINT(" + this.longitude + " " + this.latitude + "))"; 
+                return "INTERSECTS(SHAPE,SRID=4326;POINT(" + this.longitude.Trim() + this.latitude.Trim() + "))"; 
             }  
         }
         public string propertyName { get; set; }
@@ -36,6 +36,7 @@ namespace WebApp.Models
 
         public ServiceInput()
         {
+            this.Id = 0;
             this.service = "WFS";
             this.version = "1.0.0";
             this.request = "GetFeature";

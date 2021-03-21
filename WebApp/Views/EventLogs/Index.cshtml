@@ -1,0 +1,54 @@
+﻿@model IEnumerable<WebApp.Models.EventLog>
+
+@{
+    ViewBag.Title = "Event Log";
+}
+
+<h2>Event Log</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.vAction)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.vInput)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.vOutput)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.iResult)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dProcessTimestamp)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.vAction)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.vInput)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.vOutput)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.iResult)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dProcessTimestamp)
+        </td>       
+        <td>
+          
+            @Html.ActionLink("Details", "Details", new { id=item.Id })
+           
+        </td>
+    </tr>
+}
+
+</table>

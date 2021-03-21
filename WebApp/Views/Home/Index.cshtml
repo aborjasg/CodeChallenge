@@ -1,0 +1,58 @@
+﻿@model WebApp.Models.ServiceInput
+
+@{
+    ViewBag.Title = "New Request";
+}
+
+
+@using (Html.BeginForm())
+{
+
+    @Html.AntiForgeryToken()
+
+<div class="jumbotron">
+    <div class="form-horizontal">
+        <h2>New Request</h2>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.latitude, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.latitude, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.latitude, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.longitude, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.longitude, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.longitude, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Search" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="form-horizontal">
+        <div class="row">
+
+            @if (Model.result != "")
+            {
+                <h3>Result</h3>
+                <div class="col-md-4">
+
+                    @Html.EditorFor(model => model.result, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+
+                </div>
+            }
+        </div>
+    </div>
+    }
+
+

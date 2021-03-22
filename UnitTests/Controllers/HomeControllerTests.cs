@@ -36,6 +36,28 @@ namespace WebApp.Controllers.Tests
             Assert.AreEqual("Central Cowichan", res.result);
         }
 
+        [TestMethod()]
+        public void sendServiceRequest_Test03()
+        {
+            var controller = new HomeController();
+            var obj = new Models.ServiceInput();
+            obj.latitude = "+48.4251378";
+            obj.longitude = "-123.711";
+            var result = controller.Index(obj) as ViewResult;
+            Models.ServiceInput res = (Models.ServiceInput)result.Model;
+            Assert.AreEqual("Sooke", res.result);
+        }
 
+        [TestMethod()]
+        public void sendServiceRequest_Test04()
+        {
+            var controller = new HomeController();
+            var obj = new Models.ServiceInput();
+            obj.latitude = "+48.8277";
+            obj.longitude = "-123.3646335";
+            var result = controller.Index(obj) as ViewResult;
+            Models.ServiceInput res = (Models.ServiceInput)result.Model;
+            Assert.AreEqual("Pender/Galiano/Saturna/Mayne", res.result);
+        }
     }
 }

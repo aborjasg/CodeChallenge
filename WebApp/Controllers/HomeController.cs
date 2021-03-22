@@ -7,6 +7,7 @@ using System.Configuration;
 using System.Net.Http;
 using System.Web.Script.Serialization;
 using Newtonsoft.Json;
+using System.Net;
 
 namespace WebApp.Controllers
 {
@@ -72,28 +73,37 @@ namespace WebApp.Controllers
             try
             {
                 string uriApi = ConfigurationManager.AppSettings["ServiceEndpoint"] + ConfigurationManager.AppSettings["ServiceResource"];
-                HttpClient client = new HttpClient();
-                client.BaseAddress = new Uri(uriApi);
-                string uriString = uriApi + string.Format("?service={0}&version={1}&request={2}&typeName={3}&srsname={4}&cql_filter={5}&propertyName={6}&outputFormat={7}", model.service, model.version, model.request, model.typeName, model.srsname, model.cql_filter, model.propertyName, model.outpuFormat);
-                HttpResponseMessage response = client.GetAsync(uriString).Result;
 
-                if (response.IsSuccessStatusCode)
+                using (var client = new HttpClient())
                 {
-                    var jsonData = (response.Content.ReadAsStringAsync()).Result;
-                    Models.ServiceOutput result = JsonConvert.DeserializeObject<Models.ServiceOutput>(jsonData);
+                    client.BaseAddress = new Uri(uriApi);
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.Timeout = new TimeSpan(0, 0, 0, 90);
 
-                    foreach (var item in result.features)
+                    string uriString = uriApi + string.Format("?service={0}&version={1}&request={2}&typeName={3}&srsname={4}&cql_filter={5}&propertyName={6}&outputFormat={7}", model.service, model.version, model.request, model.typeName, model.srsname, model.cql_filter, model.propertyName, model.outpuFormat);
+                    var responseTask = client.GetAsync(uriString);
+                    responseTask.Wait();
+
+                    var response = responseTask.Result;
+                   
+                    if (response.IsSuccessStatusCode)
                     {
-                        if (item.properties != null)
+                        var jsonData = (response.Content.ReadAsStringAsync()).Result;
+                        Models.ServiceOutput result = JsonConvert.DeserializeObject<Models.ServiceOutput>(jsonData);
+
+                        foreach (var item in result.features)
                         {
-                            return item.properties.CMNTY_HLTH_SERV_AREA_NAME;
+                            if (item.properties != null)
+                            {
+                                return item.properties.CMNTY_HLTH_SERV_AREA_NAME;
+                            }
                         }
+                        throw new Exception("[!] Invalid data structure!");
                     }
-                    throw new Exception("[!] Invalid data structure!");
-                }
-                else
-                {
-                    throw new Exception("[!] Wrong Response!");
+                    else
+                    {
+                        throw new Exception("[!] Wrong Response!");
+                    }
                 }
             }
             catch (Exception ex)

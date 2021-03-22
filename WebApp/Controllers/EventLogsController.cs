@@ -18,7 +18,7 @@ namespace WebApp.Controllers
         // GET: EventLogs
         public ActionResult Index()
         {
-            Console.WriteLine(ConfigurationManager.ConnectionStrings["AuditModel"]);
+            Console.WriteLine(ConfigurationManager.ConnectionStrings["AuditModel"].CurrentConfiguration);
             return View(db.EventLogs.ToList().OrderByDescending(x => x.dProcessTimestamp));
         }
 

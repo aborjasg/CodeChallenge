@@ -13,7 +13,7 @@ namespace WebApp.Controllers
 {
     public class EventLogsController : Controller
     {
-        private AuditModel db = new AuditModel();
+        private readonly AuditModel db = new AuditModel();
 
         // GET: EventLogs
         public ActionResult Index()
